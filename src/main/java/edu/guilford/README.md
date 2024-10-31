@@ -1,4 +1,4 @@
-# Project 16: Dice Roller Again
+# Project 16: Dice Roller App
 
 I'm sure you're tired of rolling dice by now, but it's an easy example that lets you look back at what we've done previously.
 
