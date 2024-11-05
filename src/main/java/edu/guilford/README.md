@@ -208,7 +208,7 @@ Test your code. Try a few values. In particular, try entering negative numbers t
 
 If you'd like to do an extra step of *data validation*, you could insert the following after the parseInt lines, but before making the randomizer.
 ```
-if (numDice <= 0 || numSides <= 0) {
+if (num <= 0 || size <= 0) {
     JOptionPane.showMessageDialog(this, "Please enter positive integers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
     return;
 }
