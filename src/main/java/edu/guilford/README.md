@@ -211,7 +211,7 @@ if (numDice <= 0 || numSides <= 0) {
 ```
 This uses another pop-up to display an error message. If you have trouble getting this to work, though, it's OK to skip it.
 
-At this point, you should have a working dice roller. You might experiment with layouts to get it to look better, but it should be functional.
+At this point, you should have a working dice roller. You might experiment with layouts to get it to look better, but it should be functional!
 
 ## Wrapping Up
 
