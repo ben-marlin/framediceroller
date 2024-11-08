@@ -1,4 +1,4 @@
-# Dice Roller Again
+# Project 16: Dice Roller App
 
 I'm sure you're tired of rolling dice by now, but it's an easy example that lets you look back at what we've done previously.
 
@@ -6,7 +6,11 @@ I'm sure you're tired of rolling dice by now, but it's an easy example that lets
 
 The program `BaseDiceRoller.java` is a solution to one of the first dice rolling program we wrote earlier in the semester. Run it and read the code to make sure you remember how it works. 
 
-It only runs once, and it's a pain to click in the terminal pane every time. So let's improve on that. We'll build a frame with panels. This involves the following.
+It only runs once, and it's a pain to click in the terminal pane every time. 
+
+## Improving on the Sample
+
+We would like an app where we could specify the number of dice to roll and the type of dice. We'll build a frame with panels. This involves the following.
 
 - frame & main method
 - panels
@@ -51,12 +55,10 @@ setSize(300, 200);
 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 setLocationRelativeTo(null);
 setLayout(new BorderLayout());
+
+setVisible(true); // keep this at the end of the constructor
 ```
-The purpose of most of these commands are self-explanatory, but setLocationRelativeTo(null) would have some effect on mouse events, but not much else. Experiment with deleting it to see if it changes anything.
-
-## Using a Layout
-
-Setting the layout to a GridLayout with 2 rows and 1 column means the frame will only display 2 locations, but we'll subdivide the upper one. If you have time at the end, you might experiment with changing this to a BorderLayout instead.
+The purpose of most of these commands are self-explanatory, but setLocationRelativeTo(null) would have some effect on mouse events, but not much else. Experiment with deleting it to see if it still compiles.
 
 ## Adding Textfields and Labels
 
@@ -93,7 +95,7 @@ We need a button to make the roller work. Add the following code after the panel
 add(panel, BorderLayout.CENTER);
 add(rollButton, BorderLayout.SOUTH);
 
-setVisible(true);
+setVisible(true); // keep this at the end of the constructor
 ```
 Because we add the panel to the CENTER, it should expand across the whole frame. The button, not having a container, will fill the whole SOUTH pane as well.
 
@@ -101,23 +103,25 @@ At this point, you should be able to test your code and see if it looks right. T
 
 ## Attaching an ActionListener
 
-Since we need the button to actually do something, we add the following code after setting the visibility for the frame.
+Since we need the button to actually do something, we add the following code before setting the visibility for the frame.
 ```
 // Add button action listener
-rollButton.addActionListener(new ActionListener() {
+rollButton.addActionListener(new ButtonListener());
+```
+As written, this will cause an error. This is because we don't have a ButtonListener class defined yet. So after the end of the constructor but before the beginning of the main method, add the following.
+```
+private class ButtonListener implements ActionListener  {
     @Override
     public void actionPerformed(ActionEvent e) {
         label2.setText("rolled");
     }
-});
+}
 ```
-This illustrates a new trick - one I hadn't seen before! We'd normally make an action listener, name it, and add it to the roll button. But since we don't need to attach the same listener to any more components, we instead instantiate it inside the parenthesis of the addActionListener method, and then redefine it on the fly by starting a block enclosed by { } right after the instantiation.
-
 In the actionPerformed method, I just put in a dummy action so we could test it. Run the program and make sure it changes label2 as promised.
 
 ## Making the ActionListener Work
 
-At this point, we could use the guts of rollDice from DiceRoller inside actionPerformed. But in keeping with the philosophy of using methods, I instead replaced the label2.setText line with `rollDice();` and wrote the rollDice method separately.
+At this point, we could use the guts of rollDice from DiceRoller inside actionPerformed. But in keeping with the philosophy of using methods, instead replace the label2.setText line with `rollDice();` and write the rollDice method separately.
 
 For now, insert the following method between the constructor and the main method.
 ```
@@ -129,7 +133,7 @@ This allows you to check the functionality before sorting out how rollDice shoul
 
 ## Re-Using rollDice(num,size)
 
-*DO NOT INSERT THE FOLLOWING, IT IS FOR REFERENCE ONLY.*
+**DO NOT INSERT THE FOLLOWING, IT IS FOR REFERENCE ONLY.**
 ```
 public static int rollDice(int num, int size) {
     Random rand = new Random();
@@ -151,7 +155,7 @@ private void rollDice() {
 ```
 This will probably give you an error - try not to worry, we're going to fix it. Seeing the error helps you understand variable types.
 
-If you did not get an error, try running it and typing some letters into one of the fields before pressing the button. That will definitely cause an error.
+If you did not get an error, try running it and typing some letters into one of the fields before pressing the button. That will almost definitely cause an error.
 
 ## Error Handling
 
@@ -180,7 +184,7 @@ Test this out. It should allow you to ignore at least that sort of error. It's a
 ```
 JOptionPane.showMessageDialog(this, "Please enter valid integers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
 ```
-Test this out by running it and entering letters in a textfield.
+Test this out by running it and entering letters or symbols in a textfield before hitting the button.
 
 ## Actually Rolling the Dice
 
@@ -204,7 +208,7 @@ Test your code. Try a few values. In particular, try entering negative numbers t
 
 If you'd like to do an extra step of *data validation*, you could insert the following after the parseInt lines, but before making the randomizer.
 ```
-if (numDice <= 0 || numSides <= 0) {
+if (num <= 0 || size <= 0) {
     JOptionPane.showMessageDialog(this, "Please enter positive integers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
     return;
 }
@@ -212,6 +216,16 @@ if (numDice <= 0 || numSides <= 0) {
 This uses another pop-up to display an error message. If you have trouble getting this to work, though, it's OK to skip it.
 
 At this point, you should have a working dice roller. You might experiment with layouts to get it to look better, but it should be functional!
+
+## Embellishments
+
+Play with this and find out how to do things. Maybe try Googling "java swing components methods" if you want to learn some more tricks. 
+
+- Can you change the font of a button? If so, button.setFont(new Font("Serif",Font.BOLD,10)) in the constructor should change it.
+- Can you change the color of a textfield or label? Try label1.setBackground(Color.PINK) and see what happens. Maybe field1, too?
+- We used a GridLayout on a recent project. Try changing the layout on your panel. You'll have to count the number of components.
+- Try attaching an ActionListener to the fields. If it works, the app will roll dice when you hit enter in a textfield.
+- Certainly put your name on the frame's title bar and jazz things up a little.
 
 ## Wrapping Up
 
